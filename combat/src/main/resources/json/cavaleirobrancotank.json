@@ -1,0 +1,34 @@
+{
+   "name":"White Knight",
+   "heroType":"NONE",
+   "level":1,
+   "star":1,
+   "initialStr":15,
+   "initialInt":8,
+   "initialAgi":8,
+   "strGrowth":3.5,
+   "intGrowth":2.0,
+   "agiGrowth":1.5,
+   "reach":5,
+   "movementSpeed":1,
+   "skill_one": {
+      "name":"Shield Wall",
+      "level":1
+   },
+   "skill_two": {
+      "name":"Shield Bash",
+      "level":1
+   },
+   "skill_three": {
+      "name":"Taunt",
+      "level":1
+   },
+   "skill_four": {
+      "name":"Hero Strength",
+      "level":1
+   },
+   "skill_five": {
+      "name":"",
+      "level":1
+   }
+}
