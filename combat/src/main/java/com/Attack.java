@@ -22,24 +22,24 @@ public class Attack {
 		this.armorPenetration = armorPenetration;
 	}
 
-	public boolean acerta(Soldier inimigo) {
+	public boolean hits(Soldier inimigo) {
 		int chanceAcerto = CHANCE_ACERTO + (this.attackRate - inimigo.getDodgeRate())/100;
 		int chanceAcertoFinal = chanceAcerto > 99 ? 99 : (chanceAcerto > 0 ? chanceAcerto : 1);
-		System.out.print(" chance de certo: " + chanceAcertoFinal + " ");
 		return this.acerto <= chanceAcertoFinal ? true : false;
 	}
 
-	public void causaDano(Soldier inimigo) {
+	public String causeDamage(Soldier inimigo) {
+		String log = "";
 		if(this.acerto < (1 + (attackCriticalRate/100))) {
 			int dano = (attackPower * 2) + (attackPower * attackCriticalDamage/100);
 			inimigo.setCurrentDamage(inimigo.getCurrentDamage() + dano);
-			System.out.println(" acerta " + inimigo.getName() + " CRITICAMENTE causando " + dano + " de dano e sobrando " + (inimigo.getHitPoint() - inimigo.getCurrentDamage()) + " pontos de vida.");
+			 log = " acerta " + inimigo.getName() + " CRITICAMENTE causando " + dano + " de dano e sobrando " + (inimigo.getHitPoint() - inimigo.getCurrentDamage()) + " pontos de vida.";
 		} else if (this.acerto <= this.attackRate) {
 			int dano = attackPower - (attackPower * ((inimigo.getArmor() - this.armorPenetration)/10))/100;
 			inimigo.setCurrentDamage(inimigo.getCurrentDamage() + dano);
-			System.out.println(" acerta " + inimigo.getName() + " causando " + dano + " de dano e sobrando " + (inimigo.getHitPoint() - inimigo.getCurrentDamage()) + " pontos de vida.");
+			log = " acerta " + inimigo.getName() + " causando " + dano + " de dano e sobrando " + (inimigo.getHitPoint() - inimigo.getCurrentDamage()) + " pontos de vida.";
 		}
-		
+		return log;
 	}
 
 }

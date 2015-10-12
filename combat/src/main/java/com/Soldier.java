@@ -16,7 +16,7 @@ public class Soldier implements Runnable, Serializable {
 	private static final int STAR_CAP = 10;
 	private static final double VELOCITY_FACTOR = 0.9;
 	private static final int HIT_POINT_FACTOR = 19;
-	private static final double ATTACK_POWER_FACTOR = 0.4;
+	private static final double ATTACK_POWER_FACTOR = 0.45;
 	private static final double MAGIC_POWER_FACTOR = 2.4;
 	private static final int AGI_ARMOR_FACTOR = 14;
 	private static final int STR_ARMOR_FACTOR = 7;
@@ -431,7 +431,7 @@ public class Soldier implements Runnable, Serializable {
 				}
 			} else {
 				if (!getCombate().acabou()) {
-					this.ataca(inimigo);
+					this.attack(inimigo);
 				}
 				try {
 					Thread.sleep(3000 - this.currentAgi);
@@ -473,20 +473,24 @@ public class Soldier implements Runnable, Serializable {
 		}
 	}
 
-	public void ataca(Soldier inimigo) {
-		if (inimigo.dead()) {
+	public void attack(Soldier enemy) {
+		if (enemy.dead()) {
 			return;
 		}
 
-		Attack ataque = new Attack(this.attackRate, this.attackPower,
+		Attack attack = new Attack(this.attackRate, this.attackPower,
 				this.attackCriticalRate, this.attackCriticalDamage,
 				this.armorPenetration);
-		System.out.print(this.getName());
-		if (ataque.acerta(inimigo)) {
-			ataque.causaDano(inimigo);
-
-		} else {
-			System.out.println(" errou ataque em " + inimigo.getName());
+		synchronized (attack) {
+			String msg = "";
+			msg = this.getName();
+			if (attack.hits(enemy)) {
+				msg += attack.causeDamage(enemy);
+				
+			} else {
+				msg += " errou ataque em " + enemy.getName();
+			}
+			System.out.println(msg);
 		}
 	}
 
