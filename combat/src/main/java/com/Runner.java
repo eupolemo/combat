@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.concurrent.Semaphore;
 
+import com.util.HeroLoader;
 import com.util.JsonReader;
 
 public class Runner {
+	
+	static HeroLoader heroLoader = new HeroLoader();
 
 	public static void main(String[] args) throws Exception {
 //		 jsonTest();
@@ -108,31 +111,27 @@ public class Runner {
 	}
 
 	private static void combatTest() throws Exception {
-		JsonReader jsonReader = new JsonReader();
-		String json = jsonReader.loadJson("cavaleironegrotank.json");
-		Soldier soldadoDefensor = (Soldier)jsonReader.serialize(json, Soldier.class);
-		json = jsonReader.loadJson("cavaleirobrancotank.json");
-		Soldier soldadoAtacante = (Soldier)jsonReader.serialize(json, Soldier.class);
+		Soldier blackKnight = heroLoader.loadHero(HeroClass.BLACK_NIGHT, 100000);
+		Soldier whiteKnight = heroLoader.loadHero(HeroClass.WHITE_KNIGHT, 100000);
+		Soldier ninjaAssassin = heroLoader.loadHero(HeroClass.NINJA_ASSASSIN, 100000);
 		
-		soldadoDefensor.gainXP(100000);
-		soldadoDefensor.setPosition(new Position(60, 18));
-		soldadoDefensor.updateVariablesAttributes();
-		soldadoAtacante.gainXP(100000);
-		soldadoAtacante.setPosition(new Position(0, 0));
-		soldadoAtacante.updateVariablesAttributes();
+		blackKnight.setPosition(new Position(60, 18));
+		whiteKnight.setPosition(new Position(0, 0));
+		ninjaAssassin.setPosition(new Position(0, 3));
 
-		System.out.println(soldadoAtacante.getName() + ": " + soldadoAtacante.getLevel() + " - " + soldadoDefensor.getName() + ": " + soldadoDefensor.getLevel());
+		System.out.println(whiteKnight.getName() + ": " + whiteKnight.getLevel() + " - " + blackKnight.getName() + ": " + blackKnight.getLevel());
 		
 		Combat combate = new Combat();
 		Team attackTeam = new Team();
-		attackTeam.getSoldiers().add(soldadoAtacante);
+		attackTeam.getSoldiers().add(whiteKnight);
+		attackTeam.getSoldiers().add(ninjaAssassin);
 		combate.setAttackTeam(attackTeam);
 		Team defenseTeam = new Team();
-		defenseTeam.getSoldiers().add(soldadoDefensor);
+		defenseTeam.getSoldiers().add(blackKnight);
 		combate.setDefenseTeam(defenseTeam);
 
-		// System.out.println(soldadoDefensor);
-		// System.out.println(soldadoAtacante);
+		 System.out.println(blackKnight);
+		 System.out.println(whiteKnight);
 
 		Thread t = new Thread(combate);
 		t.start();
